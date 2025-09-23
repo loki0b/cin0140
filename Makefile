@@ -1,8 +1,14 @@
-OUT="out"
+IN="input.in"
+OUT="output.out"
+ELF="elf"
 
-all:
-	gcc -Wall $(SRC) -o $(OUT)
+c:
+	gcc -Wall $(SRC).c -o $(ELF)
+cpp:
+	g++ $(SRC).cpp -o $(ELF)
 run:
-	./$(OUT)
+	./$(ELF)
+test:
+	./$(ELF) < $(IN) > $(OUT)
 clean:
 	rm $(OUT)
