@@ -13,12 +13,10 @@ int main() {
 
 	int n;
 	cin >> n;
-	// scanf("%i", &n);
 
 	int arr[n];
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
-		// scanf("%i", &arr[i]);
 	}
 		
 	quick_sort(arr, FIRST_ELEMENT, n - 1);
@@ -34,7 +32,6 @@ void quick_sort(int* arr, int l, int r) {
 		k = s - l;
 		m = r - s;
 		cout << k << " " << m << "\n";
-		// printf("%i %i\n", k, m);
 
 		quick_sort(arr, l, s - 1);
 		quick_sort(arr, s + 1, r);

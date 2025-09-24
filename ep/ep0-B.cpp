@@ -7,7 +7,6 @@ using namespace std;
 void merge_sort(pair<string, int>& array, int left_index, int right_index, size_t array_size);
 void merge(pair<string, int>& array, int left_index, int right_index, size_t array_size);
 
-
 int main() {
   ios_base::sync_with_stdio(false);
 	cin.tie(nullptr);
