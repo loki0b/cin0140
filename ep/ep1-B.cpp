@@ -22,8 +22,7 @@ void solve() {
         y = binary_search(list, x);
         
         if (x == list[y]) cout << x << '\n';
-
-        else if ((x - list[y - 1]) > (list[y] - x)) cout << list[y - 1] << '\n';
+        else if ((x - list[y - 1]) < (list[y] - x)) cout << list[y - 1] << '\n';
         else cout << list[y] << '\n';
     }
 }
