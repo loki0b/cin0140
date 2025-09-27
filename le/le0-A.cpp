@@ -56,7 +56,7 @@ void merge(vector<int>& arr, int l, int r) {
     n = arr.size();
     vector<int> tmp_arr(n);
     
-    for (int i = 0; i < n; i++) tmp_arr[i] = arr[i];
+    for (int i = l; i < r + 1; i++) tmp_arr[i] = arr[i];
 
     m = (l + r) / 2;
     i1 = l;
@@ -71,17 +71,20 @@ void merge(vector<int>& arr, int l, int r) {
 }
 
 int binary_search(vector<int>& arr, int k) {
-    int l, r, m;
+    int l, r, m, ret;
 
     l = FIRST_ELEMENT;
     r = arr.size() - 1;
+    ret = -1;
     while (l <= r) {
         m = (l + r) / 2;
 
-        if (k == arr[m]) return m;
-        else if (k < arr[m]) r = m - 1;
-        else l = m + 1;
+        if (arr[m] <= k) { 
+          ret = m;
+          l = m + 1;
+        }
+        else r = m - 1;
     }
 
-    return -1;
+    return ret;
 }
