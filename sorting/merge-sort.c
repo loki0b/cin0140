@@ -31,7 +31,7 @@ void merge(int* array, int left_index, int right_index, size_t array_size) {
   int tmp_array[array_size];
   int middle, i1, i2;
 
-  for (int i = 0; i < array_size; i++) tmp_array[i] = array[i];
+  for (int i = left_index; i <= right_index; i++) tmp_array[i] = array[i];
 
   middle = (left_index + right_index) / 2;
   i1 = left_index;
