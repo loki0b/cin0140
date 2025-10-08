@@ -2,16 +2,16 @@
 
 using std::cin, std::cout, std::ios_base, std::max;
 
+bool rotate = false;
+
 class Node {
 public:
-    int key;
     int value;
     int height;
     Node* left;
     Node* right;
 
-    Node(int key, int value) {
-        this->key = key;
+    Node(int value) {
         this->value = value;
         this->height = 0;
         this->left = this->right = nullptr;
@@ -23,105 +23,50 @@ private:
     Node* root;
     int size;
 
-    Node* insert(Node* root, int key, int value) {
+    Node* insert(Node* root, int value) {
         int balance;
         
-        if (root == nullptr) return new Node(key, value);
+        if (root == nullptr) { 
+            if (this->size == 0) cout << "no rotation!";
+            return new Node(value);
+        }
 
-        if (root->key > key) root->left = insert(root->left, key, value);
-        else root->right = insert(root->right, key, value);
+        if (root->value > value) root->left = insert(root->left, value);
+        else root->right = insert(root->right, value);
 
         root->height = max(height(root->left), height(root->right)) + 1;
 
         balance = subTreeBalance(root);
 
-        if (balance < -1 && value >= root->right->value) return leftRotate(root);
-        else if (balance > 1 && value < root->left->value) return rightRotate(root);
+        if (balance < -1 && value >= root->right->value) { 
+            rotate = true;
+            cout << root->value << " is unbalanced, L-rotation!";
+            return leftRotate(root);
+        }
+        else if (balance > 1 && value < root->left->value) {
+            rotate = true;
+            cout << root->value << " is unbalanced, R-rotation!";
+            return rightRotate(root);
+        }
         else if (balance > 1 && value >= root->left->value) {
+            rotate = true;
+            cout << root->value << " is unbalanced, LR-rotation!";
             root->left  = leftRotate(root->left);
             return rightRotate(root);
         }
         else if (balance < -1 && value < root->right->value) {
+            rotate = true;
+            cout << root->value << " is unbalanced, RL-rotation!";
             root->right = rightRotate(root->right);
             return leftRotate(root);
+        }
+        else if (this->root == root && !rotate) {
+            cout << "no rotation!";
         }
 
         return root;
     }
-
-    int find(Node* root, int key) {
-        if (root->key == key) return root->value;
-        else if (root->key > key) return find(root->left, key);
-        else return find(root->right, key);
-    }
-
-    void inOrderTraversal(Node* root){
-        if (root == nullptr) return;
-
-        inOrderTraversal(root->left);
-        cout << root->value << ' ';
-        inOrderTraversal(root->right);
-    }
-
-    void preOrderTraversal(Node* root) {
-        if (root == nullptr) return;
-
-        cout << root->value << ' ';
-        inOrderTraversal(root->left);
-        inOrderTraversal(root->right);
-    }
-
-    void postOrderTraversal(Node* root) {
-        if (root == nullptr) return;
-
-        inOrderTraversal(root->left);
-        inOrderTraversal(root->right);
-        cout << root->value << ' ';
-    }
-
-    int height(Node* root) {
-        if (root == nullptr) return -1;
-
-        return root->height;
-    }
-
-    int subTreeBalance(Node* root) {
-        if (root == nullptr) return 0;
-
-        return height(root->left) - height(root->right);
-    }
-
-public:
-    AVLTree() {
-        this->root = nullptr;
-        this->size = 0;
-    }
-
-    ~AVLTree() {
     
-    }
-
-    void insert(int key, int value) {
-        this->root = insert(this->root, key, value);
-        this->size++;
-    }
-
-    int find(int key) {
-        return find(this->root, key);
-    }
-
-    void inOrderTraversal(){
-        inOrderTraversal(this->root);
-    }
-
-    void preOrderTraversal() {
-        preOrderTraversal(this->root);
-    }
-
-    void postOrderTraversal() {
-        postOrderTraversal(this->root);
-    }
-
     Node* leftRotate(Node* root) {
         Node *r, *rl;
         
@@ -152,16 +97,94 @@ public:
             return l;
     }
 
+    void inOrderTraversal(Node* root){
+        if (root == nullptr) return;
+
+        inOrderTraversal(root->left);
+        cout << ' ' << root->value;
+        inOrderTraversal(root->right);
+    }
+
+    void preOrderTraversal(Node* root) {
+        if (root == nullptr) return;
+
+        cout << ' ' << root->value;
+        preOrderTraversal(root->left);
+        preOrderTraversal(root->right);
+    }
+
+    void postOrderTraversal(Node* root) {
+        if (root == nullptr) return;
+
+        postOrderTraversal(root->left);
+        postOrderTraversal(root->right);
+        cout << ' ' << root->value;
+    }
+
+    int height(Node* root) {
+        if (root == nullptr) return -1;
+
+        return root->height;
+    }
+
+    int subTreeBalance(Node* root) {
+        if (root == nullptr) return 0;
+
+        return height(root->left) - height(root->right);
+    }
+
+public:
+    AVLTree() {
+        this->root = nullptr;
+        this->size = 0;
+    }
+
+    ~AVLTree() {
+    
+    }
+
+    void insert(int value) {
+        this->root = insert(this->root, value);
+        this->size++;
+    }
+
+    void inOrderTraversal(){
+        inOrderTraversal(this->root);
+    }
+
+    void preOrderTraversal() {
+        preOrderTraversal(this->root);
+    }
+
+    void postOrderTraversal() {
+        postOrderTraversal(this->root);
+    }
 
 };
 
 void solve() {
-    int n; // 0 < n <= 1000 - Quantidade de números inteiros (32 bits)
+    AVLTree tree;
+    int n, num; 
+
     
-    cin >> n;
-    // for (int i = 0; i < n; i++) -> inserir na avl;
+    cin >> n; // 0 < n <= 1000 - Quantidade de números inteiros (32 bits)
+    for (int i = 0; i < n; i++) {
+        rotate = false;
+        cin >> num;
+        cout << "insert " << num << ": ";
+        tree.insert(num);
+        cout << '\n';
+    }
 
-
+    cout << "preorder:";
+    tree.preOrderTraversal();
+    cout << '\n';
+    cout << "inorder:";
+    tree.inOrderTraversal();
+    cout << '\n';
+    cout << "postorder:";
+    tree.postOrderTraversal();
+    cout << '\n';
 }
 
 int main() {
