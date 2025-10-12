@@ -124,7 +124,14 @@ public:
         }
     }
 
-    ~priority_queue() {};
+    ~priority_queue() {
+        for (auto& n : heap) {
+            delete n;
+            n = nullptr;
+        }
+        this->heap.clear();
+        this->size = 0;
+    };
 
     void insert(k key, v value) {
         node<k, v>* n;
