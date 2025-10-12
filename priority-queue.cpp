@@ -94,11 +94,25 @@ public:
         this->size++;
     };
 
-    int find_max() {
-        return this->heap[0]->key;
+    node<k, v>* find_max() {
+        if (this->size == 0) return nullptr;
+
+        return this->heap[0];
     };
 
-    node<k, v>* delete_max() {};
+    node<k, v>* delete_max() {
+        if (this->size == 0) return nullptr;
+
+        node<k, v>* root;
+        
+        root = this->heap[0];
+        this->heap[0] = this->heap[this->size - 1];
+        this->size--;
+
+        heapify_down(0);
+
+        return root;
+    };
 };
 
 
@@ -111,9 +125,13 @@ int main() {
 
     priority_queue<int, int>* pq = new priority_queue<int, int>(nums);
     
-    cout << pq->find_max() << '\n';
+    cout << pq->find_max()->key << '\n';
     pq->insert(8, 8);
-    cout << pq->find_max() << '\n';
+    cout << pq->find_max()->key << '\n';
+
+    node<int, int>* n = pq->delete_max();
+    n = pq->delete_max();
+    cout << pq->find_max()->key << '\n';
 
     return 0;
 }
