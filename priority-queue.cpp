@@ -104,48 +104,6 @@ private:
             this->heap[pos] = value;
         }
     }
-
-    node<k, v>* find_max() {
-        if (this->size == 0) return nullptr;
-
-        return this->heap[0];
-    };
-
-    node<k, v>* delete_max() {
-        if (this->size == 0) return nullptr;
-
-        node<k, v>* root;
-        
-        root = this->heap[0];
-        this->heap[0] = this->heap[this->size - 1];
-        this->heap.pop_back();
-        this->size--;
-
-        heapify_down(0);
-
-        return root;
-    };
-
-    node<k, v>* find_min() {
-        if (this->size == 0) return nullptr;
-
-        return this->heap[0];
-    };
-
-    node<k, v>* delete_min() {
-        if (this->size == 0) return nullptr;
-
-        node<k, v>* root;
-        
-        root = this->heap[0];
-        this->heap[0] = this->heap[this->size - 1];
-        this->heap.pop_back();
-        this->size--;
-
-        heapify_down(0);
-
-        return root;
-    };
 public:
     int size;
 
@@ -179,15 +137,24 @@ public:
     };
 
     node<k, v>* find_top() {
-        if (max_heap) return find_max();
+        if (this->size == 0) return nullptr;
 
-        return find_min();
+        return this->heap[0];
     }; 
 
     node<k, v>* delete_top() {
-        if (max_heap) return delete_max();
+        if (this->size == 0) return nullptr;
 
-        return delete_min();
+        node<k, v>* root;
+        
+        root = this->heap[0];
+        this->heap[0] = this->heap[this->size - 1];
+        this->heap.pop_back();
+        this->size--;
+
+        heapify_down(0);
+
+        return root;
     };
     
     void iter() {
