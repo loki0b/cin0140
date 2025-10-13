@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-using std::cin, std::cout, std::vector;
+using std::cin, std::cout, std::vector, std::swap;
 
 template <typename k, typename v>
 class node {
@@ -167,27 +167,22 @@ public:
     void iter() {
         for (int i = 0; i < this->size; i++) cout << this->heap[i]->key << ' ';
     }
-    // TODO: implement heapsort
+
+    void heap_sort() {
+        int n = this->size;
+
+        for (int i = n - 1; i > 0; i--) {
+            swap(this->heap[0], this->heap[i]);
+            this->size = i;
+            heapify_down(0);
+        }
+
+        this->size = n;
+    }
 };
 
 
 int main() {
-    vector<node<int, int>*> nums = vector<node<int, int>*>(0);
-
-    for (int i = 5; i > 0; i--) {
-        nums.push_back(new node(i, i));
-    }
-
-    priority_queue<int, int>* pq = new priority_queue<int, int>(nums, false);
-    pq->iter();
-    cout << '\n';
-    pq->insert(6, 6);
-    pq->iter();
-    cout << '\n';
-    pq->delete_top();
-    pq->iter();
-    cout << "\n\n";
-
     vector<node<int, int>*> nums1 = vector<node<int, int>*>(0);
 
     for (int i = 0; i < 5; i++) {
@@ -203,6 +198,9 @@ int main() {
     pq1->delete_top();
     pq1->iter();
     cout << '\n';
+
+    pq1->heap_sort();
+    pq1->iter();
 
     return 0;
 }
