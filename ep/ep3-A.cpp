@@ -7,7 +7,6 @@
 
 using std::cin, std::cout, std::ios_base, std::vector, std::swap;
 
-
 class priority_queue {
 private:
     vector<int> heap;    
@@ -45,18 +44,6 @@ public:
         for (int i = (LAST_ELEMENT / 2); i >= 0; i--) heapify_down(i);
     }
 
-    int delete_min() {
-        int ret = this->heap[MIN_ELEMENT];
-
-        swap(this->heap[MIN_ELEMENT], this->heap[LAST_ELEMENT]);
-        this->heap.pop_back();
-        this->size--;
-
-        heapify_down(FIRST_ELEMENT);
-
-        return ret;
-    }
-
     int heap_sort() {
         int n = this->size;
 
@@ -85,14 +72,9 @@ public:
 
         return -1;
     }
-
-    void iter() {
-        for (int i = 0; i < this->size; i++) cout << this->heap[i] << ' ';
-        cout << '\n';
-    }
 };
 
-int solve() {
+void solve() {
     int n;
     
     cin >> n;
@@ -101,16 +83,13 @@ int solve() {
     priority_queue q = priority_queue(nums);
     
     cout << q.heap_sort() << '\n';
-    q.iter();
-
-    return 0;
 }
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    if (!solve()) return 0;
+    solve();
     
-    return 1;
+    return 0;
 }
